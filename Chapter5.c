@@ -1,4 +1,4 @@
-// Chapter 5 Notes/Exercises: Functions
+/** Chapter 5 Notes/Exercises: Functions/Booleans **/
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -84,9 +84,21 @@ int gcd(int x, int y) {
 }
 
 /**
+NOTES
 - C does not have a boolean "type"
   - 0 and 1 represent true/false values
   - Any non-zero integer is true
+- Cannot have a boolean as input/output--replace with int (0/1)
+**/
+
+/**
+main()
+- stdlib.h has 2 predefined constants: EXIT_SUCCESS & EXIT_FAILURE
+  - EXIT_SUCCESS = 0: program succeeded
+  - EXIT_FAILURE = -1: some error occurred
+- From the system's perspective, the operating system can use the return value
+  of main() to determine whether the program executed correctly or not
+- Useful note: main() can take in parameters
 **/
 
 int main() {
