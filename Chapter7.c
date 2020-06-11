@@ -61,6 +61,7 @@ void randomizeArray(int arr[], int length) {
 }
 
 // Function that prints out an array
+// Helpful utility function b/c C doesn't have a built-in array "printer"
 void printArray(int arr[], int length) {
   printf("[");
   for (int i = 0; i < length; i++) {
