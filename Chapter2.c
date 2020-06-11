@@ -1,3 +1,4 @@
+/** Chapter 2 Notes/Exercises: Variables and basic operations **/
 #include <stdio.h>
 #include <stdlib.h>
 int main(void) {
