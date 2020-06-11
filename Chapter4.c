@@ -3,7 +3,7 @@
 #include <math.h>
 
 
-/** Notes for Chapter 4 + exercises **/
+/** Chapter 4 Notes/Exercises: Conditionals & Recursion **/
 
 int isEven(int x) {
   if (x % 2 == 0) {
