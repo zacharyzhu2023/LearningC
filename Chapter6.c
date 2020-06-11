@@ -30,6 +30,8 @@ void multiplicationTable(int n) {
   printf("\n");
 }
 
+/* Note to self: the book exercises were not very comprehensive,
+so everything below is resolved from Python/Java versions. */
 /**
 Exercise 6.1
 Use a while loop to return the nth fibonacci number
@@ -59,6 +61,20 @@ int fib(int n) {
   }
 }
 
+/** Alternative recursive solution to nth fibonacci **/
+int recursiveFib(int n) {
+  if (n < 0) {
+    return -1;
+  }
+  if (n == 0) {
+    return 0;
+  } else if (n == 1) {
+    return 1;
+  } else {
+    return recursiveFib(n-1) + recursiveFib(n-2);
+  }
+}
+
 /**
 Exercise 6.2
 Use a while loop to find n! (Given that n >= 0)
@@ -77,6 +93,17 @@ int fact(int n) {
       n -= 1;
     }
     return prod;
+  }
+}
+
+/** Again, a recursive alternative exists for iterative path **/
+int recursiveFact(int n) {
+  if (n < 0) {
+    return 0;
+  } else if (n == 0) {
+    return 1;
+  } else {
+    return n * recursiveFact(n-1);
   }
 }
 /**
