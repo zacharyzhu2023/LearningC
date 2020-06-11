@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 
-/** Notes and exercises for Chapter 3! */
+/** Chapter 3 Notes/Exercises: Functions **/
 
 /* Sample function */
 // Note to self: function must be written before it's called
+// Differs from Python/Java in this respect
 void printNewLine() {
   printf("\n");
 }
