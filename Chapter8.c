@@ -325,6 +325,7 @@ int main() {
   char digit = '5';
   char space = ' ';
   char upper = 'E';
+  // Using ctype.h library
   printf("Checking %c is letter: %i\n", letter, isalpha(letter));
   printf("Checking %c is number: %i\n", digit, isdigit(digit));
   printf("Checking %c is space: %i\n", space, isspace(space));
