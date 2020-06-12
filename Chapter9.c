@@ -37,6 +37,11 @@ Notes
   - Make sure to use & operator to give pointer, and not the object itself
   - Make sure to use * operator to refer to the pointer in parameter
   - Within function, * operator can give value-at-address
+- typedef struct can only contain 1 array/datatype of non-fixed size
+  - Can use * (pointer-notation) unlimitedly--also affects strings
+- Cannot use variables defined in a typedef struct syntax to define other variables
+  - Say, an int length variable is defined in struct. It can't be used to give
+    an array in that same struct a size
 **/
 
 // Function that takes Point_t type as input
@@ -235,19 +240,82 @@ homework, midterm1, midterm2, and final grade--weighted 10%, 20%, 20%, 50% respe
 
 // struct to represent a student's information
 typedef struct {
-  char name[];
+  char *name;
   double hwScore;
   double mt1;
   double mt2;
   double final;
 } Student;
 
+void printStudentInfo(Student s) {
+  printf("Name: %s, ", s.name);
+  printf("Homework: %0.2f, ", s.hwScore);
+  printf("Midterm 1: %0.2f, ", s.mt1);
+  printf("Midterm 2: %0.2f, ", s.mt2);
+  printf("Final: %0.2f\n", s.final);
+}
+
+double calculateGrade(Student *s) {
+  return 0.1 * s->hwScore + 0.2*s->mt1 + 0.2*s->mt2 + 0.5*s->final;
+}
+
 // struct to represent a compilation of all student information--TBC
 /* Note to self: can a struct be used as an array of structs? */
 typedef struct {
-  Student students[];
+  int numStudents;
+  Student *students;
+} Gradebook;
+
+// Calculate mean grade from the gradebook
+double calculateMeanGrade(Gradebook *gradebook) {
+  double totalGrade = 0;
+  for (int i = 0; i < gradebook->numStudents; i++) {
+    totalGrade += calculateGrade(&gradebook->students[i]);
+  }
+  return totalGrade/gradebook->numStudents;
 }
 
+// Calculate the standard deviation from the gradebook
+double calculateStdDev(Gradebook *gradebook) {
+  double stdDev = 0;
+  double mean = calculateMeanGrade(gradebook);
+  for (int i = 0; i < gradebook->numStudents; i++) {
+    double studentGrade = calculateGrade(&gradebook->students[i]);
+    stdDev += pow(studentGrade-mean, 2);
+  }
+  stdDev = sqrt(stdDev/gradebook->numStudents);
+  return stdDev;
+}
+
+// Find the worst performing student
+Student worstStudent(Gradebook *gradebook) {
+  double worstScore;
+  Student worstStudent = gradebook->students[0];
+  worstScore = calculateGrade(&worstStudent);
+  for (int i = 0; i < gradebook->numStudents; i++) {
+    double score = calculateGrade(&gradebook->students[i]);
+    if (score < worstScore) {
+      worstScore = score;
+      worstStudent = gradebook->students[i];
+    }
+  }
+  return worstStudent;
+}
+
+// Find the highest performing student
+Student bestStudent(Gradebook *gradebook) {
+  double bestScore;
+  Student bestStudent = gradebook->students[0];
+  bestScore = calculateGrade(&bestStudent);
+  for (int i = 0; i < gradebook->numStudents; i++) {
+    double score = calculateGrade(&gradebook->students[i]);
+    if (score > bestScore) {
+      bestScore = score;
+      bestStudent = gradebook->students[i];
+    }
+  }
+  return bestStudent;
+}
 
 int main() {
 
@@ -381,6 +449,34 @@ int main() {
   }
 
   // Testing 9.4
+  Student st0 = {"Sally", 100.0, 95.0, 92.0, 80.0};
+  Student st1 = {"George", 95.0, 80.0, 72.0, 85.0};
+  Student st2 = {"Anne", 98.0, 99.0, 97.0, 94.0};
+  Student st3 = {"Michael", 100.0, 40.0, 36.0, 50.0};
+  Student st4 = {"Jason", 85.0, 75.0, 82.0, 88.0};
+  Student st5 = {"Blake", 93.0, 92.0, 88.0, 88.0};
+  int maxClassSize = 6;
+  Student students[maxClassSize];
+  students[0] = st0;
+  students[1] = st1;
+  students[2] = st2;
+  students[3] = st3;
+  students[4] = st4;
+  students[5] = st5;
+  Gradebook gradebook = {6, students};
+  //printf("%s", gradebook.students[0].name);
+  for (int i = 0; i < maxClassSize; i++) {
+      printStudentInfo(gradebook.students[i]);
+      printf("Overall grade for %s is: %0.2f\n", gradebook.students[i].name,
+              calculateGrade(&gradebook.students[i]));
+  }
+  printf("\nOVERALL STUDENT STATS\n");
+  printf("Mean grade for all students is: %0.3f\n", calculateMeanGrade(&gradebook));
+  printf("Standard deviation: %0.3f\n", calculateStdDev(&gradebook));
+  printf("Best student: ");
+  printStudentInfo(bestStudent(&gradebook));
+  printf("Worst student: ");
+  printStudentInfo(worstStudent(&gradebook));
 
 }
 
